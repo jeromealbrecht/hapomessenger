@@ -1,7 +1,12 @@
 // Firebase.js
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps, deleteApp } from "firebase/app";
 import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
-import { getDatabase } from 'firebase/database';
+import { getFirestore, collection, addDoc } from 'firebase/firestore'; // Correction ici
+
+const existingApps = getApps();
+existingApps.map(app => {
+  deleteApp(app);
+});
 
 const firebaseConfig = {
   apiKey: "AIzaSyDEEiEmgci2oR5kTiiAsPfdFr3V-tqQEco",
@@ -15,6 +20,16 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const database = getDatabase(app);
+const database = getFirestore(app);
 
-export { app, auth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut, database };
+export {
+  app,
+  auth,
+  onAuthStateChanged,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+  database,
+  collection,
+  addDoc, // Correction ici
+};
