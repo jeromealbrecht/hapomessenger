@@ -1,39 +1,45 @@
 <script>
+  // Importation des fonctions et objets nécessaires depuis Firebase
   import { onMount } from 'svelte';
-  import { onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
-  import { auth } from '../Firebase.js';
+  import { auth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from '../Firebase';
 
-  
-console.log(auth);
-
+  // Déclaration d'une variable pour stocker l'utilisateur
   /**
 	 * @type {import("@firebase/auth").User | null}
 	 */
   let user;
 
+  // Utilisation du hook onMount pour exécuter du code lors du montage du composant
   onMount(() => {
-    onAuthStateChanged(auth, (authUser) => {
+    // Abonnement aux changements d'état de l'authentification
+    onAuthStateChanged(auth, (/** @type {import("@firebase/auth").User | null} */ authUser) => {
       user = authUser;
     });
   });
 
+  // Fonction pour se connecter avec Google
   async function signInWithGoogle() {
+    // Création d'une instance du fournisseur Google
     const provider = new GoogleAuthProvider();
 
+    // Utilisation de signInWithPopup pour se connecter avec Google
     return signInWithPopup(auth, provider)
-      .then((result) => {
+      .then((/** @type {{ user: import("@firebase/auth").User | null; }} */ result) => {
         user = result.user;
         console.log('Utilisateur connecté avec Google!');
       })
-      .catch((error) => {
+      .catch((/** @type {any} */ error) => {
         console.error('Erreur lors de la connexion avec Google:', error);
       });
   }
 
+  // Fonction pour gérer la déconnexion
   function handleSignOut() {
+    // Utilisation de la fonction signOut pour déconnecter l'utilisateur
     signOut(auth);
   }
 
+  // Déclaration d'un tableau pour stocker les messages
   /**
 	 * @type {any[]}
 	 */
@@ -41,6 +47,7 @@ console.log(auth);
 </script>
 
 <style>
+  /* Styles CSS pour le composant */
   section {
     width: 100%;
     display: flex;
@@ -87,6 +94,7 @@ console.log(auth);
   }
 </style>
 
+<!-- Section principale du composant -->
 <section>
   {#if user}
     {#each messages as { avatar, pseudo, message }}
