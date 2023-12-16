@@ -1,8 +1,14 @@
 <script>
   import { onMount } from 'svelte';
+  import { onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
+  import { auth } from '../Firebase.js';
 
-  let messages = [];
+  
+console.log(auth);
 
+  /**
+	 * @type {import("@firebase/auth").User | null}
+	 */
   let user;
 
   onMount(() => {
@@ -11,56 +17,28 @@
     });
   });
 
-  function signInWithGoogle() {
+  async function signInWithGoogle() {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
+
+    return signInWithPopup(auth, provider)
       .then((result) => {
-        // Vous pouvez accéder aux informations de l'utilisateur ici
-        const user = result.user;
-        console.log('Utilisateur connecté avec Google:', user);
+        user = result.user;
+        console.log('Utilisateur connecté avec Google!');
       })
       .catch((error) => {
         console.error('Erreur lors de la connexion avec Google:', error);
       });
   }
 
-  function signOutUser() {
+  function handleSignOut() {
     signOut(auth);
   }
+
+  /**
+	 * @type {any[]}
+	 */
+  let messages = [];
 </script>
-
-<svelte:head>
-  <title>Home</title>
-  <meta name="description" content="Svelte demo app" />
-</svelte:head>
-
-<section>
-  {#if user}
-    <!-- Utilisateur connecté, affichez les messages -->
-    {#each messages as { avatar, pseudo, message }}
-      <div class="wrapper">
-        <!-- Avatar -->
-        {#if avatar}
-          <img src={avatar} alt="Avatar" class="avatar" />
-        {:else}
-          <img src="https://image.noelshack.com/fichiers/2023/50/4/1702591430-0cb27b4c-2b3f-467e-ba52-0ee8211cf67a.jpg" alt="Default Avatar" class="avatar" />
-        {/if}
-        
-        <!-- Pseudo -->
-        <div class="content">
-          <span class="spancolor">{pseudo}</span>
-          <hr class="hr-style">
-          <!-- Message -->
-          <span class="spancolor">{message}</span>
-        </div>
-      </div>
-    {/each}
-    <button on:click={signOutUser}>Se déconnecter</button>
-  {:else}
-    <!-- Utilisateur non connecté, affichez le bouton de connexion -->
-    <button on:click={signInWithGoogle}>Se connecter avec Google</button>
-  {/if}
-</section>
 
 <style>
   section {
@@ -108,3 +86,25 @@
     color: #fff;
   }
 </style>
+
+<section>
+  {#if user}
+    {#each messages as { avatar, pseudo, message }}
+      <div class="wrapper">
+        {#if avatar}
+          <img src={avatar} alt="Avatar" class="avatar" />
+        {:else}
+          <img src="https://image.noelshack.com/fichiers/2023/50/4/1702591430-0cb27b4c-2b3f-467e-ba52-0ee8211cf67a.jpg" alt="Default Avatar" class="avatar" />
+        {/if}
+        <div class="content">
+          <span class="spancolor">{pseudo}</span>
+          <hr class="hr-style">
+          <span class="spancolor">{message}</span>
+        </div>
+      </div>
+    {/each}
+    <button on:click={handleSignOut}>Se déconnecter</button>
+  {:else}
+    <button on:click={signInWithGoogle}>Se connecter avec Google</button>
+  {/if}
+</section>
