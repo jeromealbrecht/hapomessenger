@@ -105,3 +105,18 @@ button:focus:not(:focus-visible) {
 	width: 1px;
 	white-space: nowrap;
 }
+
+button {
+    background-color: #2e3238;
+    color : #fff;
+    border-radius: 1rem;
+    width: 200px;
+    height: 40px;
+    border-style: none;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  button:hover {
+    background-color: #345991;
+  }

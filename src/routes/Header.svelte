@@ -1,29 +1,13 @@
 <script>
 	import { page } from '$app/stores';
-	import logo from '$lib/images/svelte-logo.svg';
-	import github from '$lib/images/github.svg';
 	import avioned from '$lib/images/avioned.jpg';
 </script>
 
 <header>
 	<div class="header-container">
-		<div class="corner">
-			<a href="https://kit.svelte.dev">
-				<img src={logo} alt="SvelteKit" />
-			</a>
-		</div>
-
 			<div class="logo-center">
 				<img src={avioned} alt="Avioned" />
 		</div>
-
-		<div class="corner">
-			<a href="https://github.com/sveltejs/kit">
-				<img src={github} alt="GitHub" />
-			</a>
-		</div>
-
-	
 	</div>
 </header>
 
@@ -57,7 +41,7 @@
 	}
 
 	.logo-center img {
-		width: 25%; /* Ajustez la largeur pour remplir le conteneur */
+		width: 15%; /* Ajustez la largeur pour remplir le conteneur */
 		object-fit: cont;
 		border-radius: 50%;
 	}

@@ -2,6 +2,7 @@
   // Importation des fonctions et objets nécessaires depuis Firebase
   import { onMount } from 'svelte';
   import { auth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from '../Firebase';
+  import HapoMessaging from '$lib/components/DirectMessaging.svelte';
 
   // Déclaration d'une variable pour stocker l'utilisateur
   /**
@@ -92,11 +93,13 @@
     width: 100%;
     color: #fff;
   }
+
 </style>
 
 <!-- Section principale du composant -->
 <section>
   {#if user}
+  <HapoMessaging />
     {#each messages as { avatar, pseudo, message }}
       <div class="wrapper">
         {#if avatar}
