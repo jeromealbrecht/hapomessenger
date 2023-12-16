@@ -14,16 +14,20 @@
   
     onMount(() => {
       // Écoute les nouveaux messages dans la conversation
-      const conversationId = generateConversationId(auth.currentUser.uid, 'userId2');
-      const Usermail = generateConversationId(auth.currentUser.email, 'userMail');
-      const conversationRef = ref(database, `messages/${conversationId}`);
-      
-      onChildAdded(conversationRef, (snapshot) => {
-        messages = [...messages, snapshot.val()];
-      });
+      if (auth.currentUser){
+        const conversationId = generateConversationId(auth.currentUser.uid, 'userId2');
+        const Usermail = generateConversationId(auth.currentUser.email, 'userMail');
+        const conversationRef = ref(database, `messages/${conversationId}`);
+        
+        onChildAdded(conversationRef, (snapshot) => {
+          messages = [...messages, snapshot.val()];
+        });
+      }
     });
   
     function sendMessage() {
+
+      if (auth.currentUser){
       const conversationId = generateConversationId(auth.currentUser.uid, 'userId2');
       const Usermail = generateConversationId(auth.currentUser.email, 'userMail');
       const messageRef = ref(database, `messages/${conversationId}`);
@@ -34,6 +38,7 @@
         content: newMessage,
         timestamp: new Date().toISOString(),
       });
+    }
   
       // Efface le champ de saisie après l'envoi du message
       newMessage = '';

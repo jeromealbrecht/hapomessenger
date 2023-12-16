@@ -1,6 +1,7 @@
 // Firebase.js
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { getDatabase } from 'firebase/database';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDEEiEmgci2oR5kTiiAsPfdFr3V-tqQEco",
@@ -9,10 +10,11 @@ const firebaseConfig = {
   storageBucket: "hapomessenger.appspot.com",
   messagingSenderId: "851300319174",
   appId: "1:851300319174:web:a4cbfdf087caad47e17cc7",
-  measurementId: "G-T3CNXYFH0V"
+  measurementId: "G-T3CNXYFH0V",
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const database = getDatabase(app);
 
-export { app, auth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut };
+export { app, auth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut, database };
